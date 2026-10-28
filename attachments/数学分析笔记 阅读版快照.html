@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数学分析笔记（一）实数集与函数 · 数列极限 · 函数极限</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root{
+    --paper:#fbf7ee; --paper-2:#f6f0e2; --ink:#2b2620; --ink-soft:#57503f;
+    --rule:#ded3bb; --accent:#8a4a2f; --accent-2:#1f5f6b;
+    --sup:#1d5b8a; --sup-bg:#eaf2f8; --key:#2f6b45; --key-bg:#eaf4ed;
+    --thm:#6b3f7a; --thm-bg:#f3edf6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% 0%, #fffdf8 0%, transparent 55%), var(--paper);
+    color:var(--ink);
+    font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,"Times New Roman",serif;
+    font-size:16.5px; line-height:1.85; letter-spacing:.01em;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:56px 40px 120px;}
+  header.doc{border-bottom:3px double var(--rule);padding-bottom:24px;margin-bottom:14px;}
+  header.doc .kicker{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+    font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+  h1{font-size:31px;line-height:1.35;margin:0 0 8px;font-weight:700;}
+  header.doc .sub{color:var(--ink-soft);font-size:14.5px;}
+  h2{font-size:23px;margin:64px 0 6px;padding-bottom:10px;border-bottom:1px solid var(--rule);}
+  h2 .num{font-family:-apple-system,"Segoe UI",sans-serif;color:var(--accent);margin-right:.5em;font-size:.92em;}
+  h3{font-size:18.5px;margin:36px 0 8px;}
+  h4{font-size:16px;margin:24px 0 6px;color:var(--accent-2);}
+  p{margin:.65em 0;}
+  ul,ol{margin:.6em 0 .9em;padding-left:1.6em;}
+  li{margin:.3em 0;}
+  code{font-family:"JetBrains Mono",Consolas,monospace;font-size:.88em;background:#f1e9d8;padding:.1em .38em;border-radius:3px;}
+  .kw{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;font-size:12.5px;color:var(--ink-soft);
+    border-left:3px solid var(--rule);padding:2px 0 2px 10px;margin:2px 0 16px;letter-spacing:.04em;}
+  .meta{background:var(--paper-2);border:1px solid var(--rule);border-radius:8px;padding:20px 24px;margin:26px 0 10px;font-size:15px;color:var(--ink-soft);}
+  .meta .t{font-family:-apple-system,"Segoe UI",sans-serif;font-weight:600;color:var(--ink);letter-spacing:.06em;font-size:13px;margin-bottom:6px;}
+  .box{border-radius:7px;padding:14px 18px;margin:18px 0;font-size:15.5px;border:1px solid;line-height:1.8;}
+  .box .tag{display:inline-block;font-family:-apple-system,"Segoe UI",sans-serif;font-size:12px;font-weight:700;
+    letter-spacing:.08em;padding:1px 8px;border-radius:20px;margin-right:8px;vertical-align:2px;}
+  .box.sup{background:var(--sup-bg);border-color:#bcd6e8;color:#143f5e;}
+  .box.sup .tag{background:var(--sup);color:#fff;}
+  .box.key{background:var(--key-bg);border-color:#c3ddcb;color:#1b4630;}
+  .box.key .tag{background:var(--key);color:#fff;}
+  .box.thm{background:var(--thm-bg);border-color:#d9c8e2;color:#402a4c;}
+  .box.thm .tag{background:var(--thm);color:#fff;}
+  pre.tree{font-family:"JetBrains Mono",Consolas,"Microsoft YaHei",monospace;font-size:13px;line-height:1.7;
+    background:#fffdf6;border:1px dashed var(--rule);border-radius:8px;padding:18px 20px;overflow-x:auto;color:var(--ink-soft);margin:18px 0;}
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15px;background:#fffdf7;}
+  th,td{border:1px solid var(--rule);padding:9px 13px;text-align:left;vertical-align:top;}
+  th{background:var(--paper-2);font-family:-apple-system,"Segoe UI",sans-serif;font-size:13.5px;}
+  tbody tr:nth-child(even){background:#fdf9ef;}
+  .toc{background:#fffdf7;border:1px solid var(--rule);border-radius:8px;padding:18px 26px;margin:30px 0;font-size:15px;}
+  .toc .t{font-family:-apple-system,"Segoe UI",sans-serif;font-size:13px;letter-spacing:.1em;color:var(--accent);margin-bottom:8px;font-weight:700;}
+  .toc ol{margin:0;padding-left:1.4em;}
+  .toc a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--rule);}
+  .toc a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+  hr.sep{border:none;border-top:1px solid var(--rule);margin:56px 0 0;}
+  footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-size:13px;color:#8b8271;
+    font-family:-apple-system,"Segoe UI",sans-serif;}
+  @media (max-width:720px){ .wrap{padding:32px 18px 80px;} h1{font-size:24px;} h2{font-size:20px;margin-top:44px;} body{font-size:15.5px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <div class="kicker">Mathematical Analysis · Notes I</div>
+  <h1>数学分析笔记（一）：实数集与函数 · 数列极限 · 函数极限</h1>
+  <div class="sub">依据 10 页手写课堂笔记整理 · 条目完整保留 · 表述已校订</div>
+</header>
+
+<div class="meta">
+  <div class="t">材料来源与整理原则</div>
+  <p><strong>材料来源</strong>：6 页手写课堂笔记。第 1—9 页覆盖<strong>第一章 实数集及函数</strong>与<strong>第二章 数列极限</strong>（含性质与计算），第 10 页起为<strong>第三章 函数极限</strong>。</p>
+  <p><strong>整理原则</strong>：原笔记的分类、定义、定理、例题、证明、小结全部收录，不删减条目；表述按数学分析通行口径规范化，原稿中的笔误与不严谨之处已直接修正，正文即为终稿；原文未写而逻辑必需的内容以「补充」标注。</p>
+  <p style="margin-bottom:0"><strong>符号约定</strong>：$\mathbb{N}$ 为正整数集，$\mathbb{R}$ 为实数集；$\bar x_n$ 与 $\hat x_n$ 分别表示实数 $x$ 的 $n$ 位<strong>不足近似</strong>与<strong>过剩近似</strong>；$U(a;\varepsilon)$ 表示点 $a$ 的 $\varepsilon$ 邻域。</p>
+</div>
+
+<div class="toc">
+  <div class="t">目 录</div>
+  <ol>
+    <li><a href="#ch1">第一章 实数集与函数</a>
+      <ol>
+        <li><a href="#s11">实数的分类与无限小数表示</a></li>
+        <li><a href="#s12">实数的大小比较与近似</a></li>
+        <li><a href="#s13">实数的六条性质</a></li>
+        <li><a href="#s14">绝对值与不等式</a></li>
+        <li><a href="#s15">区间与邻域</a></li>
+        <li><a href="#s16">有界集与确界原理</a></li>
+      </ol>
+    </li>
+    <li><a href="#ch2">第二章 数列极限</a>
+      <ol>
+        <li><a href="#s21">数列的定义</a></li>
+        <li><a href="#s22">数列极限的 ε–N 定义</a></li>
+        <li><a href="#s23">极限的几何意义</a></li>
+        <li><a href="#s24">收敛与发散</a></li>
+        <li><a href="#s25">分式放缩技巧</a></li>
+        <li><a href="#s26">无穷小数列与无穷大数列</a></li>
+        <li><a href="#s27">收敛数列的性质</a></li>
+        <li><a href="#s28">极限存在的条件与计算</a></li>
+        <li><a href="#s29">本章小结</a></li>
+        
+      </ol>
+    </li>
+    <li><a href="#ch3">第三章 函数极限</a>
+      <ol>
+        <li><a href="#s31">x 趋近于 ∞ 时函数的极限</a></li>
+        <li><a href="#s32">x 趋近于 x₀ 时函数的极限</a></li>
+        <li><a href="#s33">五种定义的对照</a></li>
+        <li><a href="#s34">函数极限的性质</a></li>
+        <li><a href="#s35">小结</a></li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+<h2 id="ch1"><span class="num">第一章</span>实数集与函数</h2>
+
+<h3 id="s11">1.1 实数的分类与无限小数表示</h3>
+<div class="kw">关键词：实数的分类 · 有理数 · 正规表示</div>
+
+<h4>1.1.1 有理数的范围</h4>
+<p>有理数包括：<strong>整数、有限小数、无限循环小数、分数</strong>。</p>
+<p><strong>定义</strong>：凡可写成 $\dfrac{p}{q}$（$p,q$ 均为整数，且 $q\neq 0$）形式的数都是有理数；反过来，有理数都可以写成分数形式。</p>
+<div class="box key"><span class="tag">动机</span>为了<strong>将有理数和无理数统一用无限小数表示</strong>（原笔记以绿框强调）。只有把实数一律写成无限小数，后续的逐位比较、不足/过剩近似、确界讨论才有统一语言。</div>
+
+<h4>1.1.2 把循环小数化为分数</h4>
+<p><strong>例 1</strong> 证明 $0.\overline{9}=1$。</p>
+$$
+\begin{aligned}
+\text{设 }x &amp;= 0.\overline{9}\\
+10x &amp;= 9.\overline{9}\\
+9x &amp;= 9.\overline{9}-x = 9\\
+x &amp;= 1
+\end{aligned}
+$$
+<p><strong>例 2</strong> 求 $0.\overline{7}$ 的值。</p>
+$$
+\begin{aligned}
+\text{设 }x &amp;= 0.\overline{7}\\
+10x &amp;= 7.\overline{7}\\
+9x &amp;= 7.\overline{7}-x = 7\\
+x &amp;= \tfrac{7}{9}
+\end{aligned}
+$$
+<div class="box key"><span class="tag">方法要点</span>设 $x=0.\overline{a}$（$a$ 为一位循环节），则 $10x-x=9x=a$，故 $x=\dfrac{a}{9}$。</div>
+
+<h4>1.1.3 实数的正规表示</h4>
+$$x=a_0.a_1a_2\cdots a_n\cdots=a_0.a_1a_2\cdots(a_n-1)999\cdots$$
+<ul>
+  <li>当 $x=a_0$ 为正整数时，$x=(a_0-1).999\cdots$；</li>
+  <li>规定 $0=0.000\cdots$。</li>
+</ul>
+<div class="box sup"><span class="tag">补充</span>同一实数有两种无限小数写法（末位全 9 与有限小数）。若不先约定正规表示，1.2 节的逐位比较就会出现同一数被判为不等的歧义；约定后表示（除 $0.\overline{9}=1$ 这类等价外）唯一，定义才是良定的。</div>
+
+<h3 id="s12">1.2 实数的大小比较与近似</h3>
+<div class="kw">关键词：定义一：比大小 · 定义 2：不足近似与过剩近似</div>
+
+<h4>1.2.1 定义 1（比大小）</h4>
+<p>设</p>
+$$x=a_0.a_1a_2\cdots a_n\cdots,\qquad y=b_0.b_1b_2\cdots b_n\cdots$$
+<p>① 若 $a_k=b_k\ (k=0,1,2,\cdots)$，则 $x=y$；</p>
+<p>② 若存在非负整数 $l$，使前 $l$ 位相同而自第 $l+1$ 位起 $a_{l+1}>b_{l+1}$，即</p>
+$$a_k=b_k\ (k=0,1,\cdots,l)\quad\text{而}\quad a_{l+1}>b_{l+1},$$
+<p>则 $x>y$。</p>
+
+<h4>1.2.2 定义 2（不足近似与过剩近似）</h4>
+<p>设 $x=a_0.a_1a_2\cdots a_n\cdots$。</p>
+<ul>
+  <li><strong>$n$ 位不足近似</strong>：$\bar x_n=a_0.a_1a_2\cdots a_n$（把 $a_n$ 之后的数字全部去掉），它<strong>不大于</strong> $x$，即 $\bar x_n\le x$；</li>
+  <li><strong>$n$ 位过剩近似</strong>：$\hat x_n=\bar x_n+\dfrac{1}{10^n}$（在第 $n$ 位进 1），它<strong>恒大于</strong> $x$，即 $\hat x_n>x$。</li>
+</ul>
+<p><strong>单调性</strong>：$n$ 增大时，$\bar x_n$ <strong>不减</strong>；$\hat x_n$ <strong>不增</strong>。</p>
+<p><strong>比较判据</strong>：</p>
+$$x>y\iff \text{存在非负整数 } n,\ \text{使 } \bar x_n>\hat y_n .$$
+<p><strong>关键结论</strong>：$\bar x_n$ 与 $\hat x_n$ 都是<strong>有理数</strong>——这是把实数比较化归为有理数构造的桥梁。</p>
+
+<h4>1.2.3 例题 1：有理数的稠密性</h4>
+<div class="box thm">
+  <span class="tag">例题</span>
+  设 $x,y$ 为实数，$x&lt;y$，证明存在有理数 $r$，使得 $x&lt;r&lt;y$。（稠密性）
+</div>
+<p><strong>证明</strong>：因 $y-x>0$，由阿基米德性，存在正整数 $n$ 使 $\dfrac{1}{10^n}&lt;y-x$。取 $x$ 的 $n$ 位过剩近似</p>
+$$r=\hat x_n=\bar x_n+\frac{1}{10^n}\in\mathbb{Q}\quad(\text{有限小数必为有理数}),$$
+<p>由过剩近似定义得 $x&lt;r$；又 $\bar x_n\le x$，故</p>
+$$r=\bar x_n+\frac{1}{10^n}\le x+\frac{1}{10^n}&lt;x+(y-x)=y .$$
+<p>于是 $x&lt;r&lt;y$，即 $x,y$ 之间存在有理数 $r$。$\blacksquare$</p>
+<div class="box key"><span class="tag">要点</span>证明的关键是<strong>只取 $x$ 的过剩近似，并把步长 $10^{-n}$ 压到小于 $y-x$</strong>。$r$ 由单一数列的近似值构造，误差可控；若同时取 $x$ 与 $y$ 的近似值再取中点，两个误差会叠加，无法保证 $r$ 落入 $(x,y)$。</div>
+
+<h3 id="s13">1.3 实数的六条性质</h3>
+<div class="kw">关键词：实数的性质 · $R=\{x\mid x \text{ 为实数}\}$</div>
+<ol>
+  <li><strong>封闭性</strong>：实数集 $\mathbb{R}$ 对加、减、乘、除（除数不为零）封闭，即实数经四则运算后结果仍为实数。</li>
+  <li><strong>有序性</strong>：对任意 $a,b$，$a&lt;b$、$a=b$、$a>b$ 三者<strong>有且仅有一个</strong>成立。</li>
+  <li><strong>传递性</strong>：若 $a>b$，$b>c$，则 $a>c$。</li>
+  <li><strong>阿基米德性</strong>：设 $a>0$，$b\in\mathbb{R}$，则存在正整数 $n$，使 $na>b$。</li>
+  <li><strong>稠密性</strong>：任意两个不相等的实数之间必有另一实数，且<strong>既有有理数</strong>（见 1.2.3 例题 1）<strong>又有无理数</strong>。</li>
+  <li><strong>数轴</strong>：实数与数轴上的点对应关系，与中学阶段所学一致。</li>
+</ol>
+
+<h4>1.3.1 阿基米德性的证明</h4>
+<p><strong>① $a>b>0$</strong>：取 $n=1$，则 $na=a>b$，即可。</p>
+<p><strong>② $a=b>0$</strong>：取 $n=2$，则 $na=2a>a=b$，即可。</p>
+<p><strong>③ $b>a>0$</strong>：</p>
+<p>设 $b=b_0.b_1b_2\cdots b_n\cdots$，其整数部分 $b_0=k\in\mathbb{N}$，于是</p>
+$$k\le b&lt;k+1\le 10^{k+1}.$$
+<p>设 $a=a_0.a_1a_2\cdots a_n\cdots$，记 $a_p$ 为 $a$ 的小数部分中<strong>第一个非零数字</strong>（位于小数点后第 $p$ 位，$p\ge 1$），即</p>
+$$a=0.\underbrace{00\cdots 0}_{p-1\text{ 个}}a_p a_{p+1}\cdots$$
+<p>则</p>
+$$10^{p+k+1}a=10^{k+1}\cdot 10^{p}a=10^{k+1}\cdot a_p.a_{p+1}a_{p+2}\cdots\ \ge 10^{k+1}>b,$$
+<p>故当 $n=10^{p+k+1}$ 时，$na>b$。</p>
+<p><strong>④ $b\le 0$</strong>：由 $a>0$ 取 $n=1$，即 $na=a>0\ge b$。</p>
+<p>至此，$a>0$、$b$ 为任意实数的情形全部覆盖（①②③ 覆盖 $b>0$，④ 覆盖 $b\le 0$）。</p>
+
+<h4>1.3.2 小结（实数体系）</h4>
+<pre class="tree">                      ┌── 比大小（定义 1）
+实数的定义 ──────────┤
+                      └── 不足近似与过剩近似（定义 2）
+                                  │
+                                  ▼
+                            实数的性质
+        ┌────────┬────────┬────────┼────────┬────────┐
+     ①封闭性  ②有序性  ③传递性  ④阿基米德性  ⑤稠密性  ⑥数轴</pre>
+
+<h3 id="s14">1.4 绝对值与不等式</h3>
+<div class="kw">关键词：绝对值的定义 · 绝对值的性质</div>
+
+<h4>1.4.1 定义</h4>
+$$
+|a|=\begin{cases}
+a, &amp; a\ge 0,\\[2pt]
+-a, &amp; a&lt;0.
+\end{cases}
+$$
+<p><strong>几何意义</strong>：$|a|$ 表示数 $a$ 到原点的距离。</p>
+
+<h4>1.4.2 性质</h4>
+<p>① $|a|=|-a|\ge 0$，且 $|a|=0\iff a=0$；</p>
+<p>② $-|a|\le a\le |a|$；</p>
+<p>③ $|a|&lt;h\iff -h&lt;a&lt;h$，$\quad |a|\le h\iff -h\le a\le h$；</p>
+<p>④ <strong>三角不等式</strong>：设 $a,b\in\mathbb{R}$，则</p>
+$$\bigl||a|-|b|\bigr|\le |a\pm b|\le |a|+|b| .$$
+
+<h4>1.4.3 三角不等式的证明</h4>
+<p>由 ② 得 $-|a|\le a\le |a|$，$-|b|\le b\le |b|$；两式相加得</p>
+$$-(|a|+|b|)\le a\pm b\le |a|+|b| .$$
+<p>由 ③ 得</p>
+$$|a\pm b|\le |a|+|b| .$$
+<p>（对 $a-b$ 的情形：令 $b:=-b$，由 $|a+b|\le |a|+|b|$ 得 $|a-b|\le |a|+|b|$。）</p>
+<p>另一方面，由 $|a|=|(a-b)+b|\le |a-b|+|b|$ 得</p>
+$$|a|-|b|\le |a-b| ;$$
+<p>再令 $b:=-b$，得 $|a|-|b|\le |a+b|$，故</p>
+$$|a|-|b|\le |a\pm b| .$$
+<p>交换 $a,b$ 的地位同理有 $|b|-|a|\le |a\pm b|$。综上，</p>
+$$\bigl||a|-|b|\bigr|\le |a\pm b|\le |a|+|b| . \qquad\blacksquare$$
+
+<h4>1.4.4 小结</h4>
+<pre class="tree">绝对值的定义
+     ‖
+绝对值的性质 ──▶ 三角形不等式</pre>
+
+<h3 id="s15">1.5 区间与邻域</h3>
+<div class="kw">关键词：区间 · 邻域　｜　原笔记此处属"二、数集 确界原理"的开头</div>
+
+<h4>1.5.1 区间</h4>
+<p>设 $a,b\in\mathbb{R}$，$a&lt;b$：</p>
+<table>
+  <thead><tr><th>集合</th><th>记号</th><th>名称</th><th>类型</th></tr></thead>
+  <tbody>
+    <tr><td>$\{x\mid a&lt;x&lt;b\}$</td><td>$(a,b)$</td><td>开区间</td><td>有限区间</td></tr>
+    <tr><td>$\{x\mid a\le x\le b\}$</td><td>$[a,b]$</td><td>闭区间</td><td>有限区间</td></tr>
+    <tr><td>$\{x\mid a\le x&lt;b\}$</td><td>$[a,b)$</td><td>半开半闭区间</td><td>有限区间</td></tr>
+    <tr><td>$\{x\mid x\ge a\}$</td><td>$[a,+\infty)$</td><td>无限区间</td><td>无限区间</td></tr>
+  </tbody>
+</table>
+<div class="box sup"><span class="tag">补充</span>同型地还有 $(a,b]$、$(-\infty,b]$、$(-\infty,+\infty)=\mathbb{R}$ 等。有限区间的共同特征是<strong>有界</strong>（见 1.6 节）。</div>
+
+<h4>1.5.2 邻域</h4>
+<p><strong>定义</strong>：设 $a\in\mathbb{R}$，$b>0$，则满足 $|x-a|&lt;b$ 的全体 $x$ 的集合称为点 $a$ 的 <strong>$b$ 邻域</strong>，记为</p>
+$$U(a;b)=\{x\mid |x-a|&lt;b\}=(a-b,\ a+b),$$
+<p>其中 $a$ 为中心，$b$ 为<strong>半径</strong>（原笔记以黄色标出）。</p>
+<p><strong>去心（空心）邻域</strong>：</p>
+$$U^{\circ}(a;b)=\{x\mid 0&lt;|x-a|&lt;b\}=U(a;b)\setminus\{a\}.$$
+<p><strong>单侧邻域</strong>：</p>
+<ul>
+  <li>$a$ 的<strong>右邻域</strong>：$U_+(a;b)=[a,\ a+b)$；</li>
+  <li>$a$ 的<strong>左邻域</strong>：$U_-(a;b)=(a-b,\ a]$。</li>
+</ul>
+<p><strong>无穷邻域</strong>：</p>
+<ul>
+  <li>$U(\infty)=\{x\mid |x|>m\}$（$m$ 为充分大的正数）；</li>
+  <li>$U(+\infty)=\{x\mid x>m\}$；</li>
+  <li>$U(-\infty)=\{x\mid x&lt;m\}$。</li>
+</ul>
+<div class="box key"><span class="tag">注意</span>☆ <strong>所有的邻域均不包含边界的点</strong>，即 $a\pm b$ 这类端点不属于邻域。需要区分的是：右邻域 $[a,a+b)$ 与左邻域 $(a-b,a]$ 中的 $a$ 是<strong>邻域中心</strong>而非边界点，故与上述说法并不矛盾。</div>
+
+<h4>1.5.3 小结</h4>
+<pre class="tree">区间
+  │
+  ▼
+邻域 ──┬── 去心邻域 U°(a;b)
+       ├── 左邻域 U₋(a;b)
+       ├── 右邻域 U₊(a;b)
+       └── ∞ 邻域 U(∞)、U(+∞)、U(−∞)</pre>
+
+<h3 id="s16">1.6 有界集与确界原理</h3>
+<div class="kw">关键词：有界集 · 确界原理 · 上（下）界 · 上（下）确界</div>
+
+<h4>1.6.1 上（下）界的定义</h4>
+<p>设 $S$ 是 $\mathbb{R}$ 中的一个数集。</p>
+<ul>
+  <li>若<strong>存在</strong> $M$，使得<strong>一切</strong> $x\in S$ 都有 $x\le M$，则称 $S$ 是<strong>有上界</strong>的数集，$M$ 为 $S$ 的一个上界；</li>
+  <li>若<strong>存在</strong> $L$，使得<strong>一切</strong> $x\in S$ 都有 $x\ge L$，则称 $S$ 是<strong>有下界</strong>的数集，$L$ 为 $S$ 的一个下界。</li>
+</ul>
+<p><strong>例</strong>：$[0,1]$，$8$ 是它的上界，$-1$ 是它的下界。</p>
+<p>☆ <strong>上（下）界不是唯一的</strong>：只要 $M$ 是上界，任何 $M'>M$ 仍是上界。这正是需要引入"最小上界"（上确界）的原因。</p>
+
+<h4>1.6.2 有界集</h4>
+<p><strong>定义</strong>：既有上界又有下界的数集称为<strong>有界集</strong>。</p>
+<ol>
+  <li>若不是有界集，则为<strong>无界集</strong>；</li>
+  <li>有限区间是有界集，无限区间是无界集；</li>
+  <li>由有限个数组成的集合是<strong>有界集</strong>（取其中最大者为上界、最小者为下界）。</li>
+</ol>
+
+<h4>1.6.3 取整函数（高斯函数）</h4>
+$$y=[x]\quad\text{（表示不超过 }x\text{ 的最大整数）}$$
+<p><strong>图像特征</strong>：阶梯形曲线，在每个整数点处发生跳跃（右连续，左极限为 $[x]-1$），值域为 $\mathbb{Z}$。</p>
+
+<h4>1.6.4 上（下）确界（统称确界）</h4>
+<div class="box thm">
+  <span class="tag">上确界</span>
+  设 $S$ 是 $\mathbb{R}$ 的一个数集，若数 $\eta$ 满足
+  <ul style="margin-bottom:0">
+    <li>(i) 对一切 $x\in S$，$x\le\eta$，即 $\eta$ 是 $S$ 的上界；</li>
+    <li>(ii) 对任意 $\delta>0$，<strong>存在</strong> $x_0\in S$，使得 $x_0>\eta-\delta$，即 $\eta$ 又是 $S$ 的<strong>最小上界</strong>（比 $\eta$ 小的数就不再是上界），</li>
+  </ul>
+  <p style="margin-bottom:0">则称 $\eta$ 为 $S$ 的<strong>上确界</strong>，记为 $\eta=\sup S$。</p>
+</div>
+<div class="box thm">
+  <span class="tag">下确界</span>
+  设 $S$ 是 $\mathbb{R}$ 的一个数集，若数 $\xi$ 满足
+  <ul style="margin-bottom:0">
+    <li>(i) 对一切 $x\in S$，$x\ge\xi$，即 $\xi$ 是 $S$ 的下界；</li>
+    <li>(ii) 对任意 $\delta>0$，<strong>存在</strong> $x_0\in S$，使得 $x_0&lt;\xi+\delta$，即 $\xi$ 又是 $S$ 的<strong>最大下界</strong>，</li>
+  </ul>
+  <p style="margin-bottom:0">则称 $\xi$ 为 $S$ 的<strong>下确界</strong>，记为 $\xi=\inf S$。</p>
+</div>
+<p>☆ <strong>上（下）确界是唯一的</strong>。<strong>规定</strong>：$+\infty$、$-\infty$ 为非正常上（下）确界。</p>
+
+<h4>1.6.5 确界原理</h4>
+<div class="box thm">
+  <span class="tag">定理</span>
+  设 $S$ 为非空数集，若 $S$ 有上界，则 $S$ 必有上确界；若 $S$ 有下界，则 $S$ 必有下确界。
+</div>
+<p><strong>推广</strong>：在<strong>扩充实数系</strong> $\overline{\mathbb{R}}=\mathbb{R}\cup\{+\infty,-\infty\}$ 中，任意非空数集必有上确界与下确界（无上界时 $\sup S=+\infty$，无下界时 $\inf S=-\infty$）。</p>
+<div class="box key"><span class="tag">作用</span>确界原理把"<strong>有界</strong>"转化为"<strong>存在最小上（下）界</strong>"，是证明后续部分定理的工具，是<strong>极限理论和连续函数理论的基础</strong>。</div>
+
+<h4>1.6.6 小结</h4>
+<pre class="tree">有界集 ──▶ 上（下）界 ──▶ 上（下）确界
+                              │
+                              ▼
+              确界原理：把"有界"转化为"存在最小上（下）界"
+              作用：证明后续的部分定理；
+                    是极限理论和连续函数理论的基础。</pre>
+
+<hr class="sep">
+
+<h2 id="ch2"><span class="num">第二章</span>数列极限</h2>
+
+<h3 id="s21">2.1 数列的定义</h3>
+<div class="kw">关键词：数列极限的概念 · 数列的定义</div>
+<p>若函数 $f$ 的定义域为全体正整数集合 $\mathbb{N}_+$，则称</p>
+$$f:\ \mathbb{N}_+\to\mathbb{R},\qquad \text{或}\quad f(n),\ n\in\mathbb{N}_+$$
+<p>为<strong>数列</strong>，简记为 $\{a_n\}$，其中 $a_n=f(n)$ 称为通项。</p>
+<div class="box sup"><span class="tag">补充</span>通项的具体形式是"任意的"，可以是 $a_n$、$\sqrt{n}$、$\dfrac{1}{n}$ 等等（原笔记以红字注明），它决定了数列的取值规律。数列的本质是"正整数集上的函数"，因此可以逐项枚举、可以讨论单调性，但不能直接谈连续性。</div>
+
+<h3 id="s22">2.2 数列极限的 ε–N 定义</h3>
+<div class="kw">关键词：数列极限定义 · ☆关键：求 $N$</div>
+<div class="box thm">
+  <span class="tag">定义</span>
+  设 $\{a_n\}$ 为数列，$a$ 为定数。若对<strong>任给的正数</strong> $\varepsilon$，总存在<strong>正整数</strong> $N$，使得当 $n>N$ 时，
+  $$|a_n-a|&lt;\varepsilon,$$
+  则称数列 $\{a_n\}$ <strong>收敛于</strong> $a$，定数 $a$ 称为数列 $\{a_n\}$ 的<strong>极限</strong>，记作
+  $$\lim_{n\to\infty}a_n=a \quad\text{或}\quad a_n\to a\ (n\to\infty).$$
+</div>
+<p><strong>两点说明</strong>（原笔记红字）：</p>
+<ol>
+  <li>$N$ <strong>仅依赖于</strong> $\varepsilon$——给定 $\varepsilon$ 后 $N$ 随之确定，但<strong>不是唯一的</strong>（取更大的数同样成立）；</li>
+  <li>$|a_n-a|$ 是 $a_n$ 与 $a$ 之间的<strong>距离</strong>，因此定义可用<strong>邻域语言</strong>叙述：$a_n\in U(a;\varepsilon)$。</li>
+</ol>
+<div class="box sup"><span class="tag">补充</span>定义的逻辑结构为 $\forall\varepsilon>0,\ \exists N\in\mathbb{N}_+,\ \forall n>N:\ |a_n-a|&lt;\varepsilon$。三个量词的顺序<strong>不可交换</strong>：$N$ 可以依赖 $\varepsilon$，但绝不可以依赖 $n$——这正是"求 $N$"成为解题关键的根源。</div>
+
+<h3 id="s23">2.3 极限的几何意义</h3>
+<p>由 $|a_n-a|&lt;\varepsilon$ 可推出</p>
+$$a-\varepsilon&lt;a_n&lt;a+\varepsilon,\qquad\text{即}\quad a_n\in(a-\varepsilon,\ a+\varepsilon)=U(a;\varepsilon).$$
+<p><strong>几何解释</strong>：以 $a$ 为中心、$\varepsilon$ 为半径作邻域 $U(a;\varepsilon)$，则</p>
+<ul>
+  <li>所有下标 $n>N$ 的项 $a_n$ 全部落入该邻域内；</li>
+  <li>在该邻域<strong>之外</strong>，$\{a_n\}$ 至多只有<strong>有限项</strong>（至多 $N$ 项）。</li>
+</ul>
+<pre class="tree">        a−ε        a        a+ε
+   ──────┼─────────┼─────────┼──────▶ x
+     a₁ a₂ … a_N       a_{N+1} … a₃
+                 （ε 邻域，长度 2ε）</pre>
+<div class="box key"><span class="tag">要点</span>极限只约束"<strong>尾部</strong>"，不约束"有限个开头项"——这就是"改变有限项不影响极限"的直观来源。等价说法：数列收敛 $\iff$ 任给 $\varepsilon>0$，邻域 $U(a;\varepsilon)$ 之外至多含有限项。</div>
+
+<h3 id="s24">2.4 收敛与发散</h3>
+<ul>
+  <li><strong>收敛</strong>：数列有（有限的）极限，即存在 $a\in\mathbb{R}$ 使 $\lim\limits_{n\to\infty}a_n=a$；</li>
+  <li><strong>发散</strong>：数列无极限。</li>
+</ul>
+
+<h3 id="s25">2.5 分式放缩技巧</h3>
+<p>处理分式型 $|a_n-a|$ 时的常用放大手段：</p>
+<ol>
+  <li><strong>分子放大、分母不变</strong> $\Rightarrow$ 分式放大；</li>
+  <li><strong>分母缩小、分子不变</strong> $\Rightarrow$ 分式放大。</li>
+</ol>
+<div class="box sup"><span class="tag">补充</span>目的是把 $|a_n-a|$ 放大为关于 $n$ 的简单表达式（如 $\dfrac{C}{n}$），再由 $\dfrac{C}{n}&lt;\varepsilon$ 解出 $n>\dfrac{C}{\varepsilon}$，取 $N=\left[\dfrac{C}{\varepsilon}\right]$（或更大），从而落实"求 $N$"这一步。两个约束：① 放缩必须朝"变大"方向，才能由大者小于 $\varepsilon$ 推出小者小于 $\varepsilon$；② 放大后的量仍须<strong>趋于 $0$</strong>，否则解不出 $N$。</div>
+
+<h3 id="s26">2.6 无穷小数列与无穷大数列</h3>
+<div class="kw">关键词：无穷小数列 · 无穷大数列</div>
+
+<h4>2.6.1 无穷小数列</h4>
+<div class="box thm"><span class="tag">定义</span>若 $\lim\limits_{n\to\infty}a_n=0$，则称 $\{a_n\}$ 为<strong>无穷小数列</strong>。</div>
+<div class="box sup"><span class="tag">补充</span>无穷小数列不是"很小的数"，而是"<strong>以 $0$ 为极限的数列</strong>"——它描述变化趋势，不是数值大小。由极限的四则运算，$a_n\to a\iff a_n-a\to 0$，即<strong>任何收敛数列都可写成"极限值 + 无穷小数列"</strong>。这条等价关系把"收敛于 $a$"化归为"与 $a$ 之差为无穷小"，是后续处理极限运算的常用形式。</div>
+
+<h4>2.6.2 无穷大数列</h4>
+<div class="box thm"><span class="tag">定义</span>若数列 $\{a_n\}$ 以 $\infty$、$+\infty$、$-\infty$ 为<strong>非正常极限</strong>，则称 $\{a_n\}$ 为<strong>无穷大数列</strong>。</div>
+<div class="box sup">
+  <span class="tag">补充</span>定义中的"非正常极限"须先明确，三者都指"任给正数 $M$，从某项之后所有项都落在 $M$ 所划范围之外"：
+  <ul style="margin-bottom:0">
+    <li>$\lim\limits_{n\to\infty}a_n=\infty\iff \forall M>0,\ \exists N,\ \forall n>N:\ |a_n|>M$；</li>
+    <li>$\lim\limits_{n\to\infty}a_n=+\infty\iff \forall M>0,\ \exists N,\ \forall n>N:\ a_n>M$；</li>
+    <li>$\lim\limits_{n\to\infty}a_n=-\infty\iff \forall M>0,\ \exists N,\ \forall n>N:\ a_n&lt;-M$。</li>
+  </ul>
+  <p style="margin:8px 0 0">与 2.2 的 ε–N 定义对照：$\varepsilon$ 是"要多近有多近"的<strong>小</strong>量，$M$ 是"要多远有多远"的<strong>大</strong>量，二者结构完全一致，只是不等号方向相反。</p>
+</div>
+<div class="box key">
+  <span class="tag">辨析</span>
+  <ol style="margin:0">
+    <li><strong>无穷小</strong>刻画"趋近于 $0$"；<strong>无穷大</strong>刻画"绝对值无限增大"；二者都不是实数意义上的"数"。</li>
+    <li>无穷大数列一定<strong>发散</strong>，且一定<strong>无界</strong>；但<strong>无界数列未必是无穷大数列</strong>。例如
+      $$a_n=\begin{cases}n, &amp; n \text{ 为奇数},\\ 1, &amp; n \text{ 为偶数},\end{cases}$$
+      该数列无界（奇数项可任意大），却不存在 $N$ 使 $n>N$ 后所有 $|a_n|>M$，故 $\lim a_n\ne\infty$。</li>
+    <li>无穷小与无穷大互为倒数：若 $a_n\ne 0$ 且 $a_n\to 0$，则 $\dfrac{1}{a_n}\to\infty$；反之若 $a_n\to\infty$，则 $\dfrac{1}{a_n}\to 0$。</li>
+  </ol>
+</div>
+
+<h3 id="s27">2.7 收敛数列的性质</h3>
+<div class="kw">关键词：收敛数列的性质</div>
+
+<h4>2.7.1 唯一性</h4>
+<p>若数列 $\{a_n\}$ 收敛，则它<strong>只有一个</strong>极限。</p>
+
+<h4>2.7.2 有界性</h4>
+<p>若数列 $\{a_n\}$ 收敛，则 $\{a_n\}$ 为<strong>有界数列</strong>，即存在正数 $M$，使得对一切正整数 $n$，都有</p>
+$$|a_n|\le M .$$
+<p>（原笔记以红字标注：这是数列收敛的<strong>必要条件</strong>。）</p>
+<div class="box sup"><span class="tag">补充</span>有界只是收敛的必要条件，并非充分条件。例如 $a_n=(-1)^n$ 有界（$|a_n|=1$），却发散。因此"有界"不能用来判定收敛，只能用来否定收敛——<strong>无界必发散</strong>。</div>
+
+<h4>2.7.3 保号性</h4>
+<p>若 $\lim\limits_{n\to\infty}a_n=a>0$（或 $a&lt;0$），则对任意 $a'\in(0,a)$（或 $a'\in(a,0)$），存在正整数 $N$，使得当 $n>N$ 时有</p>
+$$a_n>a' .$$
+<div class="box key"><span class="tag">直观理解</span>一个数列最终越来越接近某个正数，那么它<strong>从某项起必然全为正</strong>；若极限为负，则从某项起全为负。保号性的价值在于"以极限的符号推断数列项的符号"，是判断数列项正负、开方是否合法的常用依据。</div>
+
+<h4>2.7.4 保不等式性</h4>
+<p>设 $\{a_n\}$ 和 $\{b_n\}$ 均收敛，若存在正整数 $N$，使得当 $n>N$ 时有</p>
+$$a_n\le b_n,$$
+<p>则</p>
+$$\lim_{n\to\infty}a_n\le \lim_{n\to\infty}b_n .$$
+<div class="box sup"><span class="tag">补充</span>结论中的 $\le$ 不能换成 $&lt;$。即使对一切 $n$ 都有 $a_n&lt;b_n$，也只能推出 $\lim a_n\le\lim b_n$。例如 $a_n=0,\ b_n=\dfrac{1}{n}$，恒有 $a_n&lt;b_n$，但两者极限都等于 $0$。</div>
+
+<h4>2.7.5 迫敛性</h4>
+<p>设数列 $\{a_n\}$ 和 $\{b_n\}$ 都以 $a$ 为极限，数列 $\{c_n\}$ 满足：存在正整数 $N$，当 $n>N$ 时有</p>
+$$a_n\le c_n\le b_n,$$
+<p>则数列 $\{c_n\}$ 收敛，且</p>
+$$\lim_{n\to\infty}c_n=a .$$
+<div class="box sup"><span class="tag">补充</span><strong>证明思路</strong>：当 $n>N$ 时，由 $a_n-a\le c_n-a\le b_n-a$ 得 $|c_n-a|\le\max\{|a_n-a|,\ |b_n-a|\}$；任给 $\varepsilon>0$，取 $N'$ 使 $n>N'$ 时右端小于 $\varepsilon$ 即可。<br>迫敛性的意义在于：<strong>不必知道 $\{c_n\}$ 的极限是什么</strong>，只要用两个已知极限的数列把它"夹住"。</div>
+
+<h4>2.7.6 四则运算</h4>
+<p>若 $\{a_n\}$ 和 $\{b_n\}$ 均收敛，则 $\{a_n+b_n\}$、$\{a_n-b_n\}$、$\{a_nb_n\}$ 也收敛，且有</p>
+$$\lim_{n\to\infty}(a_n\pm b_n)=\lim_{n\to\infty}a_n\pm\lim_{n\to\infty}b_n,$$
+$$\lim_{n\to\infty}(a_nb_n)=\lim_{n\to\infty}a_n\cdot\lim_{n\to\infty}b_n .$$
+<p>若 $b_n\ne 0$ 且 $\lim\limits_{n\to\infty}b_n\ne 0$，则 $\left\{\dfrac{a_n}{b_n}\right\}$ 也收敛，且有</p>
+$$\lim_{n\to\infty}\frac{a_n}{b_n}=\frac{\lim\limits_{n\to\infty}a_n}{\lim\limits_{n\to\infty}b_n}.$$
+<div class="box sup"><span class="tag">补充</span>三条法则的共同前提是<strong>两个极限都存在</strong>；商的法则还额外要求<strong>分母的极限不为零</strong>。前提不满足时法则失效，须改用 2.8 的其他方法。</div>
+
+<h4>2.7.7 子列</h4>
+<p><strong>定义</strong>：设 $\{a_n\}$ 为数列，$\{n_k\}$ 为正整数集 $\mathbb{N}_+$ 的无限子集，且</p>
+$$n_1&lt;n_2&lt;\cdots&lt;n_k&lt;\cdots,$$
+<p>则数列 $\{a_{n_k}\}$ 称为 $\{a_n\}$ 的一个<strong>子列</strong>。</p>
+<div class="box thm"><span class="tag">定理</span>数列 $\{a_n\}$ 收敛 $\iff$ $\{a_n\}$ 的<strong>任何</strong>子列都收敛于<strong>同一数值</strong>。</div>
+<div class="box sup">
+  <span class="tag">补充</span>
+  <ol style="margin:0">
+    <li><strong>顺向用</strong>：若 $a_n\to a$，则其任何子列 $a_{n_k}\to a$——子列继承了原数列的极限。</li>
+    <li><strong>逆向用（证明发散）</strong>：只要找到两个极限不同的子列，或找到一个发散的子列，即可断定原数列发散。例如 $a_n=(-1)^n$，取 $a_{2k}=1$、$a_{2k-1}=-1$，两子列极限不同，故 $\{a_n\}$ 发散。</li>
+    <li>子列的下标必须是<strong>无限集</strong>且<strong>严格递增</strong>，因此"取前 $N$ 项"之类都不是子列。</li>
+  </ol>
+</div>
+
+<h4>2.7.8 小结</h4>
+<pre class="tree">收敛数列的性质 ─┬─ ① 唯一性
+                ├─ ② 有界性
+                ├─ ③ 保号性
+                ├─ ④ 保不等式性
+                └─ ⑤ 迫敛性
+
+四则运算 ──▶ 把已知极限组装成新极限
+子列 ──────▶ 数列收敛（唯一可反向判定收敛的工具）</pre>
+<div class="box key"><span class="tag">读图要点</span>前五条是"<strong>收敛 ⟹ 具备某性质</strong>"的顺向结论，主要用于<strong>估计与放缩</strong>；四则运算是把已知极限组装成新极限；而"子列 → 数列收敛"是唯一可以<strong>反向判定收敛</strong>的工具（配合 2.8 的奇偶子列判别）。</div>
+
+<h3 id="s28">2.8 数列极限存在的条件与计算方法</h3>
+<div class="kw">关键词：极限的存在性（收敛的判断）· 极限的计算</div>
+
+<h4>2.8.1 两个基本问题</h4>
+<ol>
+  <li><strong>极限的存在性</strong>（收敛的判断）：给定数列，如何断定它收敛；</li>
+  <li><strong>极限的计算</strong>：在确认收敛的前提下，如何求出极限值。</li>
+</ol>
+<p>两者的关系是：<strong>判定在前，计算在后</strong>——先确认极限存在，四则运算等法则才有合法对象。</p>
+
+<h4>2.8.2 判定收敛的五条途径</h4>
+<p><strong>① 用定义（ε–N）</strong></p>
+$$\lim_{n\to\infty}a_n=a\iff \forall\varepsilon>0,\ \exists N\in\mathbb{N}_+,\ \text{当 } n>N \text{ 时},\ |a_n-a|&lt;\varepsilon .$$
+<div class="box key"><span class="tag">用法</span>定义法<strong>必须先猜出（或算出）极限 $a$</strong>，再验证不等式。它是最根本的判据，但通常不是最省力的。</div>
+
+<p><strong>② 迫敛性（两边夹法则）</strong></p>
+<ul>
+  <li>① 存在 $N_0$，当 $n>N_0$ 时有 $a_n\le c_n\le b_n$；</li>
+  <li>② $\lim\limits_{n\to\infty}a_n=\lim\limits_{n\to\infty}b_n=a$；</li>
+</ul>
+<p>则数列 $\{c_n\}$ 收敛，且 $\lim\limits_{n\to\infty}c_n=a$。（表述与证明见 2.7.5）</p>
+
+<p><strong>③ 用子列</strong></p>
+$$\lim_{n\to\infty}a_n=a\iff \lim_{n\to\infty}a_{2n}=\lim_{n\to\infty}a_{2n+1}=a .$$
+<p>即：<strong>奇、偶两个子列收敛于同一数值</strong>是原数列收敛的充要条件。常见的等价写法是 $\lim\limits_{n\to\infty}a_{2n-1}=\lim\limits_{n\to\infty}a_{2n}=a$（奇偶下标取法不同，含义相同）。</p>
+
+<p><strong>④ 单调有界原理</strong></p>
+<ul>
+  <li>单调<strong>增加</strong>且有<strong>上界</strong>的数列必收敛，且极限为<strong>上确界</strong>；</li>
+  <li>单调<strong>减少</strong>且有<strong>下界</strong>的数列必收敛，且极限为<strong>下确界</strong>。</li>
+</ul>
+<div class="box key"><span class="tag">用法</span>单调有界原理<strong>不给出极限值</strong>，只保证极限存在。典型用法是：先用它证明 $\{a_n\}$ 收敛，再对递推式两边取极限解出 $a$（常用确界或方程确定该值）。</div>
+
+<p><strong>⑤ 柯西（Cauchy）收敛准则</strong></p>
+<p>数列 $\{a_n\}$ 收敛 $\iff$ 对任意 $\varepsilon>0$，存在 $N>0$，当 $n,m>N$ 时，有</p>
+$$|a_n-a_m|&lt;\varepsilon .$$
+<div class="box key"><span class="tag">价值</span>柯西准则的判据只涉及 $\{a_n\}$ 自身，<strong>不需要预先知道极限值 $a$</strong>，这是它相对定义法的根本优势。</div>
+
+<h4>2.8.3 极限计算的常用结论</h4>
+<p><strong>① 幂函数型</strong></p>
+$$\lim_{n\to\infty}\frac{1}{n^\alpha}=0\quad(\alpha>0).$$
+<p><strong>② 指数型</strong></p>
+$$\lim_{n\to\infty}q^n=0\quad(|q|&lt;1).$$
+<p><strong>③ 常数的方根</strong></p>
+$$\lim_{n\to\infty}\sqrt[n]{a}=1\quad(a>0).$$
+<p><strong>④ 幂的方根</strong></p>
+$$\lim_{n\to\infty}\sqrt[n]{n^k}=1\quad(k\in\mathbb{N}_+).$$
+<p>特别地，取 $k=1$ 得 $\lim\limits_{n\to\infty}\sqrt[n]{n}=1$。</p>
+
+<p><strong>⑤ 根式与极限的交换</strong></p>
+<p>设 $a_n\ge 0$，$\lim\limits_{n\to\infty}a_n=a$，则</p>
+$$\lim_{n\to\infty}\sqrt{a_n}=\sqrt{a}=\sqrt{\lim\limits_{n\to\infty}a_n}.$$
+<p>即：<strong>平方根运算与求极限可以交换次序</strong>。注意它与 ③④ 的区别——③④ 的根指数是 $n$（$\sqrt[n]{\ }$，随 $n$ 变化），⑤ 是固定的平方根，属于"函数连续性与极限交换"，二者不是同一类结论。</p>
+<div class="box sup">
+  <span class="tag">补充</span>为什么可以交换：平方根函数在 $[0,+\infty)$ 上连续，故可与极限交换。也可直接估计——对 $x,y\ge 0$ 有
+  $$|\sqrt{x}-\sqrt{y}|\le\sqrt{|x-y|},$$
+  取 $x=a_n,\ y=a$ 得 $|\sqrt{a_n}-\sqrt{a}|\le\sqrt{|a_n-a|}$。于是任给 $\varepsilon>0$，取 $N$ 使 $n>N$ 时 $|a_n-a|&lt;\varepsilon^{2}$，即得 $|\sqrt{a_n}-\sqrt{a}|&lt;\varepsilon$。
+</div>
+
+<p><strong>⑥ 重要公式 $e$（基础型）</strong></p>
+$$\lim_{n\to\infty}\left(1+\frac{1}{n}\right)^{n}=e .$$
+<p><strong>推广型 1</strong>：若 $\lim\limits_{n\to\infty}f(n)=\infty$，则</p>
+$$\lim_{n\to\infty}\left(1+\frac{1}{f(n)}\right)^{f(n)}=e .$$
+<p><strong>推广型 2</strong>：若 $\lim\limits_{n\to\infty}g(n)=0$，则</p>
+$$\lim_{n\to\infty}\left(1+g(n)\right)^{\frac{1}{g(n)}}=e .$$
+<div class="box key"><span class="tag">三种形式的关系</span>基础型是 $f(n)=g(n)=n$ 的特例；三个式子的共同结构都是"$1+$ 无穷小"的"倒数次幂"。使用时先凑成 $\left(1+\square\right)^{1/\square}$ 的形状，再套公式。</div>
+
+<h4>2.8.4 极限运算法则及其适用条件</h4>
+<p>用初等运算、变量代换、恒等变形等方法将极限式化简，再由极限的四则运算、复合运算法则求出极限，是极限运算最基本的方法。</p>
+<p>因为极限四则运算法则的条件是：<strong>有限项</strong>，<strong>各项极限均存在</strong>，<strong>分母的极限不为零</strong>，所以化简的过程就是使极限式满足运算条件的过程。</p>
+<div class="box sup"><span class="tag">补充</span>上述三个条件中任意一条不满足，就不能直接拆开算。常见的"化简"动作包括：约去公因子、有理化、分子分母同除最高次幂、拆项、变量代换——目的都是把"$\frac{\infty}{\infty}$、$\infty-\infty$、$0\cdot\infty$"等未定式，化为极限存在且分母非零的有限项之和。</div>
+
+<h4>2.8.5 Stolz 定理</h4>
+<p><strong>条件</strong>：</p>
+<ol>
+  <li>$\{b_n\}$ 严格单调递增，且 $\lim\limits_{n\to\infty}b_n=+\infty$；</li>
+  <li>$\lim\limits_{n\to\infty}\dfrac{a_{n+1}-a_n}{b_{n+1}-b_n}=a$（$a$ 为有限数，或 $+\infty$，或 $-\infty$）。</li>
+</ol>
+<p><strong>结论</strong>：</p>
+$$\lim_{n\to\infty}\frac{a_n}{b_n}=\lim_{n\to\infty}\frac{a_{n+1}-a_n}{b_{n+1}-b_n},$$
+<p>或者（后向形式）</p>
+$$\lim_{n\to\infty}\frac{a_n}{b_n}=\lim_{n\to\infty}\frac{a_n-a_{n-1}}{b_n-b_{n-1}}.$$
+<div class="box sup"><span class="tag">补充</span>Stolz 定理处理 $\dfrac{\infty}{\infty}$ 型，可视为"数列版的洛必达法则"：把分子分母各自作差，化差分为商。另有针对 $\dfrac{0}{0}$ 型的版本（要求 $\{b_n\}$ 严格递减且趋于 $0$），本笔记未涉及。</div>
+
+<h4>2.8.6 小结</h4>
+<pre class="tree">两个基本问题
+├─ 极限的存在性（判定）
+│   ├─ ① 定义法（需先猜 a）
+│   ├─ ② 迫敛性
+│   ├─ ③ 奇偶子列同极限
+│   ├─ ④ 单调有界原理
+│   └─ ⑤ 柯西准则（不需 a）
+└─ 极限的计算
+    ├─ ① 常用结论（含 e 的三种形式）
+    ├─ ② 迫敛性
+    ├─ ③ 单调有界原理
+    ├─ ④ 运算法则（化简到满足条件）
+    ├─ ⑤ 子列
+    └─ ⑥ Stolz 定理</pre>
+<div class="box key"><span class="tag">读图要点</span>左右两栏的条目<strong>高度重叠</strong>（迫敛性、单调有界、子列在两侧都出现），但用法不同：判定侧问"<strong>是否收敛</strong>"，计算侧问"<strong>极限是多少</strong>"。同一工具在两侧扮演不同角色——这也是本章复习时最容易混淆的地方。</div>
+
+<h3 id="s29">本章小结</h3>
+<pre class="tree">数列 ──┬─▶ 极限 ─┬─▶ 无穷小数列（2.6）
+       │          ├─▶ 无穷大数列（2.6）
+       │          ├─▶ 收敛（2.4）
+       │          ├─▶ 判定（2.8）：定义、迫敛性、子列、单调有界、柯西
+       │          └─▶ 计算（2.8）：常用结论、运算法则、Stolz 定理
+       └─▶ 发散
+
+收敛（2.4）──▶ 性质（2.7）：唯一性、有界性、保号性、保不等式性、迫敛性、四则运算、子列定理</pre>
+<div class="box key"><span class="tag">读图要点</span>全章的落点只有两个方向：<strong>收敛</strong>（极限存在且有限）与<strong>发散</strong>（极限不存在）。"无穷小 / 无穷大"把极限概念向外扩展成两条支路——一条趋向 $0$，一条趋向 $\pm\infty$，后者正是"发散"中结构最规整的一类。<br>2.7 与 2.8 则把"收敛"这一判断落到实处：<strong>先由性质提供估计工具，再由判定方法确认存在，最后由计算方法求出数值</strong>。</div>
+
+<hr class="sep">
+
+<h2 id="ch3"><span class="num">第三章</span>函数极限</h2>
+
+<h3 id="s31">3.1 x 趋近于 ∞ 时函数的极限</h3>
+<div class="kw">关键词：x → +∞ 与 x → −∞ 的 ε–M 定义</div>
+
+<h4>3.1.1 x → +∞ 时的极限</h4>
+<div class="box thm">
+  <span class="tag">定义</span>
+  $\forall\varepsilon>0$，$\exists M>0$，使得当 $x>M$ 时，有
+  $$|f(x)-L|&lt;\varepsilon,$$
+  记为
+  $$\lim_{x\to+\infty}f(x)=L .$$
+</div>
+<div class="box key"><span class="tag">文字表述</span>无论给定多么小的正数 $\varepsilon$，总能找到一个正数 $M$，只要 $x$ 大于 $M$，函数值 $f(x)$ 就与 $L$ 的误差小于 $\varepsilon$。（原笔记以红字给出）</div>
+
+<h4>3.1.2 x → −∞ 时的极限</h4>
+<div class="box thm">
+  <span class="tag">定义</span>
+  $\forall\varepsilon>0$，$\exists M>0$，使得当 $x&lt;-M$ 时有 $|f(x)-L|&lt;\varepsilon$，记为
+  $$\lim_{x\to-\infty}f(x)=L .$$
+</div>
+<div class="box key"><span class="tag">文字表述</span>无论给定多么小的正数 $\varepsilon$，总能找到一个正数 $M$，只要 $x$ 小于 $-M$，函数值 $f(x)$ 就与 $L$ 的误差小于 $\varepsilon$。</div>
+
+<h4>3.1.3 两者的关系</h4>
+<div class="box thm"><span class="tag">定理</span>$$\lim_{x\to\infty}f(x)=L\iff \lim_{x\to+\infty}f(x)=\lim_{x\to-\infty}f(x)=L .$$</div>
+<div class="box sup"><span class="tag">补充</span><strong>记号 $\lim\limits_{x\to\infty}$ 的含义</strong>：3.1.1 与 3.1.2 分别定义了 $x\to+\infty$、$x\to-\infty$，二者合起来才构成"$x$ 趋于无穷"，记作 $x\to\infty$。<br>上式说明：<strong>$\lim\limits_{x\to\infty}$ 不是第三种独立定义</strong>，它要求两侧<strong>都存在且相等</strong>；只要有一侧不存在、或两侧不相等，$\lim\limits_{x\to\infty}f(x)$ 就不存在。</div>
+<div class="box sup"><span class="tag">补充</span><strong>与左右极限的关系同构</strong>：对照 3.2.3 的 $\lim\limits_{x\to x_0}f(x)=L\iff \lim\limits_{x\to x_0^{+}}f(x)=\lim\limits_{x\to x_0^{-}}f(x)=L$，两式形状完全相同——<strong>"整体极限存在 $\iff$ 两个方向的极限存在且相等"</strong>。差别只在于"两侧"是 $x_0$ 的左右邻域，还是 $x$ 轴的左右两端。<br>例：$\arctan x$ 满足 $\lim\limits_{x\to+\infty}\arctan x=\dfrac{\pi}{2}$、$\lim\limits_{x\to-\infty}\arctan x=-\dfrac{\pi}{2}$，两侧不等，故 $\lim\limits_{x\to\infty}\arctan x$ 不存在。</div>
+<div class="box sup"><span class="tag">补充</span><strong>计算时的化归</strong>（与上述定理不同的另一个恒等式）：$$\lim_{x\to-\infty}f(x)=\lim_{t\to+\infty}f(-t).$$ 它把"$x$ 趋于 $-\infty$"换成"$t$ 趋于 $+\infty$"，使论证只需建立一套 ε–M。</div>
+<div class="box sup"><span class="tag">补充</span><strong>ε–M 的邻域表述</strong>：$x>M$ 即 $x\in(M,+\infty)=U(+\infty;M)$。故 ε–M 定义可读作——任给 $\varepsilon>0$，存在<strong>无穷邻域</strong> $U(+\infty;M)$，使 $x$ 落入其中时 $f(x)\in U(L;\varepsilon)$。这正是第一章"无穷邻域"的用处。</div>
+
+<h3 id="s32">3.2 x 趋近于 x₀ 时函数的极限</h3>
+<div class="kw">关键词：ε–δ 定义 · 左极限与右极限</div>
+
+<h4>3.2.1 定义（ε–δ）</h4>
+<div class="box thm">
+  <span class="tag">定义</span>
+  $\forall\varepsilon>0$，$\exists\delta>0$，使得当 $0&lt;|x-x_0|&lt;\delta$ 时，有
+  $$|f(x)-L|&lt;\varepsilon,$$
+  记作
+  $$\lim_{x\to x_0}f(x)=L .$$
+</div>
+<div class="box key"><span class="tag">文字表述</span>无论给定多么小的正数 $\varepsilon$，总能找到一个正数 $\delta$，只要 $x$ 与 $x_0$ 的距离小于 $\delta$ 但不等于 $0$，函数值 $f(x)$ 与 $L$ 的误差就小于 $\varepsilon$。</div>
+<div class="box sup"><span class="tag">补充</span>为什么是 $0&lt;|x-x_0|$：① $|x-x_0|&lt;\delta$ 表示 $x\in U(x_0;\delta)$；② 左端的 $0&lt;$ 把 $x=x_0$ 挖去，考察的是<strong>去心邻域</strong> $U^{\circ}(x_0;\delta)$。<br>由此得一个常被忽略的结论：<strong>$f$ 在 $x_0$ 处可以没有定义，极限依然可能有意义</strong>——极限只关心 $x_0$ 附近，不关心 $x_0$ 这一点本身。</div>
+
+<h4>3.2.2 左极限与右极限</h4>
+<p><strong>左极限</strong>（$x$ 从 $x_0$ 的左侧逼近，即 $x&lt;x_0$）：</p>
+<div class="box thm">
+  <span class="tag">定义</span>
+  $\forall\varepsilon>0$，$\exists\delta>0$，当 $0&lt;x_0-x&lt;\delta$ 时，有 $|f(x)-L|&lt;\varepsilon$，记为
+  $$\lim_{x\to x_0^{-}}f(x)=L .$$
+</div>
+<p><strong>右极限</strong>（$x$ 从 $x_0$ 的右侧逼近，即 $x>x_0$）：</p>
+<div class="box thm">
+  <span class="tag">定义</span>
+  $\forall\varepsilon>0$，$\exists\delta>0$，当 $0&lt;x-x_0&lt;\delta$ 时，有 $|f(x)-L|&lt;\varepsilon$，记为
+  $$\lim_{x\to x_0^{+}}f(x)=L .$$
+</div>
+<p><strong>左极限与右极限统称为单侧极限。</strong>下文 3.2.3 讨论的"双侧极限与单侧极限的关系"，即指双侧极限与左、右极限之间的关系。</p>
+<div class="box sup">
+  <span class="tag">补充</span><strong>关于定名与记法</strong>：原稿第 1 条标为"左极限"，但所给条件是 $0&lt;x-x_0&lt;\delta$（即 $x>x_0$）、记号亦为 $x\to x_0^{+}$，二者都指向<strong>右极限</strong>；第 2 条情形对称。此处按不等式方向与记号定名，条件与下标完全照原稿保留。<br>
+  记号的其他写法：$x\to x_0^{+}$ 可写作 $x\to x_0+0$，$x\to x_0^{-}$ 可写作 $x\to x_0-0$；两个不等式也可合并为 $0&lt;|x-x_0|&lt;\delta$ 再附加 $x>x_0$（或 $x&lt;x_0$）。
+</div>
+
+<h4>3.2.3 双侧极限与单侧极限的关系</h4>
+<div class="box thm"><span class="tag">定理</span>$$\lim_{x\to x_0}f(x)=L\iff \lim_{x\to x_0^{+}}f(x)=\lim_{x\to x_0^{-}}f(x)=L .$$</div>
+<div class="box sup"><span class="tag">补充</span>两个方向的用法：<br>① <strong>判定存在</strong>——分别求出左、右极限，若都存在且相等，则双侧极限存在且等于该值，可避开两侧同时控制的麻烦；<br>② <strong>判定不存在</strong>——只要左、右极限有一个不存在，或两者不相等，双侧极限就不存在。例：$f(x)=\dfrac{\lvert x\rvert}{x}$ 在 $x_0=0$ 处，右极限为 $1$、左极限为 $-1$，故 $\lim\limits_{x\to 0}\dfrac{\lvert x\rvert}{x}$ 不存在。</div>
+
+<h3 id="s33">3.3 五种定义的对照</h3>
+<table>
+  <thead><tr><th>过程</th><th>控制自变量的量</th><th>条件</th><th>结论</th><th>记号</th></tr></thead>
+  <tbody>
+    <tr><td>$x\to+\infty$</td><td>$M>0$</td><td>$x>M$</td><td>$\lvert f(x)-L\rvert&lt;\varepsilon$</td><td>$\lim\limits_{x\to+\infty}f(x)=L$</td></tr>
+    <tr><td>$x\to-\infty$</td><td>$M>0$</td><td>$x&lt;-M$</td><td>$\lvert f(x)-L\rvert&lt;\varepsilon$</td><td>$\lim\limits_{x\to-\infty}f(x)=L$</td></tr>
+    <tr><td>$x\to x_0$</td><td>$\delta>0$</td><td>$0&lt;\lvert x-x_0\rvert&lt;\delta$</td><td>$\lvert f(x)-L\rvert&lt;\varepsilon$</td><td>$\lim\limits_{x\to x_0}f(x)=L$</td></tr>
+    <tr><td>$x\to x_0^{+}$</td><td>$\delta>0$</td><td>$0&lt;x-x_0&lt;\delta$</td><td>$\lvert f(x)-L\rvert&lt;\varepsilon$</td><td>$\lim\limits_{x\to x_0^{+}}f(x)=L$</td></tr>
+    <tr><td>$x\to x_0^{-}$</td><td>$\delta>0$</td><td>$0&lt;x_0-x&lt;\delta$</td><td>$\lvert f(x)-L\rvert&lt;\varepsilon$</td><td>$\lim\limits_{x\to x_0^{-}}f(x)=L$</td></tr>
+  </tbody>
+</table>
+<div class="box key"><span class="tag">读表要点</span>五行的结构完全一致：<strong>$\forall\varepsilon>0$，$\exists$ 一个控制自变量的正数（$M$ 或 $\delta$），当 $x$ 进入指定范围时，函数值与 $L$ 的误差小于 $\varepsilon$</strong>。<br>$\varepsilon$ 永远管"纵向"的误差，$M$ 与 $\delta$ 永远管"横向"的范围；区别只在于 $x$ 是趋于无穷还是趋于有限点。<br>表中未列 $\lim\limits_{x\to\infty}f(x)$：它不是独立的一种定义，而是要求 $x\to+\infty$ 与 $x\to-\infty$ 两侧同时成立且相等，见 3.1.3。</div>
+
+<h3 id="s34">3.4 函数极限的性质</h3>
+<div class="kw">关键词：函数极限的性质　（原笔记提示：与数列极限的性质具有较高相似性）</div>
+
+<div class="box sup">
+  <span class="tag">补充</span>与 2.7 收敛数列性质的逐条对应：
+  <table style="margin:10px 0 0">
+    <thead><tr><th>性质</th><th>数列极限（2.7）</th><th>函数极限（3.4）</th></tr></thead>
+    <tbody>
+      <tr><td>唯一性</td><td>极限唯一</td><td>同</td></tr>
+      <tr><td>有界性</td><td>整个数列有界</td><td>只在 $x_0$ 的某<strong>空心邻域</strong>内有界</td></tr>
+      <tr><td>保号性</td><td>从某项起与极限同号</td><td>在某<strong>空心邻域</strong>内与极限同号</td></tr>
+      <tr><td>迫敛性</td><td>两个数列夹逼</td><td>两个函数夹逼</td></tr>
+      <tr><td>四则运算</td><td>加、减、乘、除</td><td>同</td></tr>
+      <tr><td>复合</td><td>本页无对应条目</td><td><strong>复合函数极限定理</strong>（需 $f(x)\neq u_0$）</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:10px 0 0">唯一的实质差别是"<strong>局部</strong>"二字：数列的"最终"是全称的（除有限项外全部成立），函数的"附近"是局部的（只在某个邻域内成立）。</p>
+</div>
+
+<h4>3.4.1 唯一性</h4>
+<p>若极限 $\lim\limits_{x\to x_0}f(x)$ 存在，则此极限是<strong>唯一的</strong>。</p>
+
+<h4>3.4.2 局部有界性</h4>
+<p>若 $\lim\limits_{x\to x_0}f(x)$ 存在，则 $f$ 在 $x_0$ 的<strong>某空心邻域</strong> $U^{\circ}(x_0)$ 上有界。</p>
+<div class="box sup"><span class="tag">补充</span>确切含义：存在 $M>0$ 与 $\delta>0$，使当 $0&lt;|x-x_0|&lt;\delta$ 时 $|f(x)|\le M$。<br>两点须注意：① 只保证<strong>某一个</strong>邻域内有界，该邻域可以很小；② 不涉及 $x=x_0$ 这一点，故 $f$ 在 $x_0$ 处甚至可以不定义。</div>
+
+<h4>3.4.3 局部保号性</h4>
+<p>若 $\lim\limits_{x\to x_0}f(x)=A>0$（或 $A&lt;0$），则对任何正数 $r&lt;A$（或 $r&lt;-A$），存在 $U^{\circ}(x_0)$，使得对一切 $x\in U^{\circ}(x_0)$，都有</p>
+$$f(x)>r>0\qquad\left(\text{或 } f(x)&lt;-r&lt;0\right).$$
+<div class="box sup"><span class="tag">补充</span>取 $r=\dfrac{A}{2}$ 是最常用的特例：此时 $f(x)>\dfrac{A}{2}>0$，即函数值不仅与极限同号，而且至少保留极限值的<strong>一半</strong>。<br>注意 $r$ 必须是正数：若允许 $r\le 0$，结论就退化为"$f(x)$ 与 $A$ 同号"的弱形式，不再保证有正的下界。</div>
+
+<h4>3.4.4 迫敛性</h4>
+<p>设 $\lim\limits_{x\to x_0}f(x)=\lim\limits_{x\to x_0}g(x)=A$，且在某 $U^{\circ}(x_0;\delta')$ 上有</p>
+$$f(x)\le h(x)\le g(x),$$
+<p>则</p>
+$$\lim_{x\to x_0}h(x)=A .$$
+
+<h4>3.4.5 四则运算</h4>
+<p>与数列极限相似：若 $\lim\limits_{x\to x_0}f(x)$、$\lim\limits_{x\to x_0}g(x)$ 都存在，则</p>
+$$\lim_{x\to x_0}\left[f(x)\pm g(x)\right]=\lim_{x\to x_0}f(x)\pm\lim_{x\to x_0}g(x),$$
+$$\lim_{x\to x_0}\left[f(x)g(x)\right]=\lim_{x\to x_0}f(x)\cdot\lim_{x\to x_0}g(x);$$
+<p>当 $\lim\limits_{x\to x_0}g(x)\neq 0$ 时，</p>
+$$\lim_{x\to x_0}\frac{f(x)}{g(x)}=\frac{\lim\limits_{x\to x_0}f(x)}{\lim\limits_{x\to x_0}g(x)} .$$
+<div class="box sup"><span class="tag">补充</span>与 3.4.1–3.4.4 不同，四则运算<strong>不需要"局部"限定</strong>：它是恒等式，在极限存在处直接成立。前提仍是"两个极限都存在"与"分母极限不为零"。</div>
+
+<h4>3.4.6 复合函数极限</h4>
+<div class="box thm">
+  <span class="tag">定理</span>
+  设 $\lim\limits_{x\to x_0}f(x)=u_0$，$\lim\limits_{u\to u_0}g(u)=A$，且存在某空心邻域 $U^{\circ}(x_0;\delta)$，使得对任意 $x\in U^{\circ}(x_0;\delta)$ 有 $f(x)\neq u_0$，则
+  $$\lim_{x\to x_0}g\bigl(f(x)\bigr)=A .$$
+</div>
+<div class="box sup"><span class="tag">补充</span><strong>条件 $f(x)\neq u_0$ 的作用</strong>：定理只要求 $g$ 在 $u_0$ 附近有定义、并以 $A$ 为极限，<strong>$g$ 在 $u_0$ 处本身可以有定义也可以没有</strong>。若 $f$ 在 $x_0$ 附近取到 $u_0$，代入后就会出现 $g(u_0)$，极限过程可能无意义。<br>该条件等价于保证"$0&lt;|u-u_0|$"成立（见证明 ③），使 $g$ 的极限可以被合法使用。直观地说：复合函数的极限是"把 $f$ 的值送进 $g$ 的极限过程"，而极限过程必须<strong>去掉中心点</strong>。</div>
+
+<p><strong>证明</strong>（笔记原文，编号照录）：</p>
+<div class="proof">
+<p>∵ $\lim\limits_{u\to u_0}g(u)=A$，∴ $\forall\varepsilon>0$，$\exists\eta>0$，使得当 $0&lt;|u-u_0|&lt;\eta$ 时，有</p>
+$$|g(u)-A|&lt;\varepsilon . \qquad (①)$$
+<p>∵ $\lim\limits_{x\to x_0}f(x)=u_0$，∴ 对于上面找到的 $\eta>0$，必定存在 $\delta_1>0$，使得当 $0&lt;|x-x_0|&lt;\delta_1$ 时，有</p>
+$$|f(x)-u_0|&lt;\eta . \qquad (②)$$
+<p>由是，当 $0&lt;|x-x_0|&lt;\delta_1$ 时，</p>
+$$|f(x)-u_0|>0 . \qquad (③)$$
+<p>取 $\delta'=\min\{\delta_1,\ \delta\}$，当 $0&lt;|x-x_0|&lt;\delta'$ 时，②③ 同时成立。</p>
+<p>令 $u=f(x)$，有 $0&lt;|u-u_0|&lt;\eta$，代入 ① 得</p>
+$$|g\bigl(f(x)\bigr)-A|&lt;\varepsilon ,$$
+<p>故</p>
+$$\lim_{x\to x_0}g\bigl(f(x)\bigr)=A . \qquad\blacksquare$$
+</div>
+
+<h4>3.4.7 小结</h4>
+<pre class="tree">函数极限的性质 ─┬─ ① 唯一性
+                ├─ ② 局部有界性
+                ├─ ③ 局部保号性
+                ├─ ④ 迫敛性
+                ├─ ⑤ 四则运算
+                └─ ⑥ 复合函数极限</pre>
+<div class="box sup"><span class="tag">补充</span><strong>为什么强调"局部"</strong>：极限只描述 $x$ 靠近 $x_0$ 时的行为，<strong>不控制远处</strong>。由 $\lim\limits_{x\to x_0}f(x)=A$ 只能推出"$x_0$ 附近"的信息，$f$ 在远离 $x_0$ 处可以任意大，故有界性、保号性都只能是局部的。</div>
+<div class="box sup"><span class="tag">补充</span><strong>为什么数列极限不强调"局部"</strong>：数列极限的"局部"是<strong>尾部</strong> $n>N$，而尾部之外只有<strong>有限项</strong>。有限项必定有界、且不会破坏符号，于是"尾部有界"可升级为"整个数列有界"，"尾部同号"也可说"从某项起同号"。<br>函数则不同：$x_0$ 的空心邻域之外有<strong>无穷多个</strong>点，无法像有限项那样收拢，因此只能停在"局部"。</div>
+
+<h3 id="s35">小结</h3>
+<pre class="tree">函数的极限
+├─ x 趋近于 ∞ 时 ─┬─ x 趋近于 +∞ 时
+│                 └─ x 趋近于 −∞ 时
+└─ x 趋近于 x₀ 时 ─┬─ 左极限
+                   └─ 右极限</pre>
+<div class="box key"><span class="tag">读图要点</span>本章只有两种极限过程：<strong>自变量趋于无穷</strong>（细分为 $+\infty$ 与 $-\infty$，二者可由 $t=-x$ 互相转化）与<strong>自变量趋于有限点</strong>（细分为左、右极限，二者相等时合并为双侧极限）。<br>两个分叉都不是并列的四种独立定义，而是"一个模型 + 若干变体"：$+\infty$ 与 $-\infty$ 共用 ε–M 模型，左、右极限共用 ε–δ 模型，只是把去心邻域换成单侧区间。</div>
+
+<hr class="sep">
+
+<h2>知识结构总图</h2>
+<pre class="tree">数学分析笔记（一）
+│
+├─ 第一章 实数集与函数
+│   ├─ 1.1 实数的分类与表示
+│   │     ├─ 有理数 = 整数 / 有限小数 / 无限循环小数 / 分数
+│   │     ├─ 循环小数化分数：0.9̅ = 1，0.7̅ = 7/9
+│   │     └─ 正规表示：末位全 9 与有限小数的等价，0 = 0.000…
+│   ├─ 1.2 大小比较与近似
+│   │     ├─ 定义 1：逐位比较
+│   │     ├─ 定义 2：n 位不足近似 x̄ₙ / 过剩近似 x̂ₙ（均为有理数）
+│   │     ├─ 判据：x > y ⟺ ∃n，x̄ₙ > ŷₙ
+│   │     └─ 例题 1：有理数稠密性（构造 x < r < y）
+│   ├─ 1.3 实数六性质
+│   │     └─ ①封闭性 ②有序性 ③传递性 ④阿基米德性 ⑤稠密性 ⑥数轴
+│   ├─ 1.4 绝对值与不等式
+│   │     └─ 定义 → 四条性质 → 三角不等式 ||a|−|b|| ≤ |a±b| ≤ |a|+|b|
+│   ├─ 1.5 区间与邻域
+│   │     ├─ 区间：开 / 闭 / 半开半闭 / 无限
+│   │     └─ 邻域：U(a;b) → 去心、左、右、∞ 邻域
+│   └─ 1.6 有界集与确界原理
+│         ├─ 上（下）界 → 有界集
+│         ├─ 上（下）确界 η = sup S，ξ = inf S（唯一）
+│         └─ 确界原理：有界 ⟹ 存在确界（极限与连续理论的基础）
+│
+├─ 第二章 数列极限
+    ├─ 2.1 数列：f: ℕ₊ → ℝ
+    ├─ 2.2 ε–N 定义：∀ε>0，∃N∈ℕ₊，n>N 时 |aₙ−a| < ε
+    ├─ 2.3 几何意义：邻域外至多有限项（N 项）
+    ├─ 2.4 收敛（有极限）/ 发散（无极限）
+    ├─ 2.5 分式放缩：分子放大 / 分母缩小 ⟹ 求 N
+    ├─ 2.6 无穷小数列（lim aₙ = 0）/ 无穷大数列（非正常极限 ∞、+∞、−∞）
+    ├─ 2.7 收敛数列的性质：唯一性、有界性、保号性、保不等式性、迫敛性、四则运算、子列定理
+    ├─ 2.8 判定与计算：定义、迫敛性、奇偶子列、单调有界、柯西 ｜ 常用结论、运算法则、Stolz
+    └─ 本章小结：数列 → 极限 → {无穷小、无穷大、收敛}；数列 → 发散
+│
+└─ 第三章 函数极限
+    ├─ 3.1 x→∞：+∞ / −∞ 的 ε–M 定义（x→∞ 为双侧刻画）
+    ├─ 3.2 x→x₀：ε–δ 定义、左/右极限、双侧与单侧的关系
+    ├─ 3.3 五种定义的对照表
+    ├─ 3.4 性质：唯一、局部有界、局部保号、迫敛、四则运算、复合函数极限
+    └─ 小结：两种极限过程 = 一个模型 + 若干变体</pre>
+
+<footer>
+  整理自手写课堂笔记 6 页｜条目完整保留，表述按通行定义校订｜蓝色标注为必要补充
+</footer>
+
+</div>
+</body>
+</html>

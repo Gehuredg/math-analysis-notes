@@ -1,0 +1,202 @@
+{
+  "main": {
+    "id": "f90559c3668e0dbe",
+    "type": "split",
+    "children": [
+      {
+        "id": "99cbe2054aa868f6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0129e901830371e8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00 数学分析总索引.md",
+                "mode": "preview",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "00 数学分析总索引"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8618dcf5f0afa550",
+    "type": "split",
+    "children": [
+      {
+        "id": "54f07714a6da64d6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b9e0183f306d798f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "28ba90798a2be5ef",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "e24148068654a461",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 266.16668701171875
+  },
+  "right": {
+    "id": "46a919a6971de94a",
+    "type": "split",
+    "children": [
+      {
+        "id": "b50892f133003c2b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "52d3600e49cea1d9",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "01 第一章 实数集与函数.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "ddccf1a65e0fae9d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "325289f0fd4c5ec1",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "10ac7e12d36c4469",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "272f9e98687aa1bf",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "b9e0183f306d798f",
+  "lastOpenFiles": [
+    "00 数学分析总索引.md",
+    "未命名.canvas",
+    "03 第三章 函数极限.md",
+    "01 第一章 实数集与函数.md",
+    "未命名.base",
+    "02 第二章 数列极限.md",
+    "attachments/笔记原图-01 实数的分类与大小比较.jpg",
+    "attachments/笔记原图-09 极限存在的条件与计算.png",
+    "attachments/笔记原图-03 绝对值与不等式.jpg",
+    "attachments/笔记原图-02 实数的六条性质.jpg"
+  ]
+}
